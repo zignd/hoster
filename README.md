@@ -22,11 +22,53 @@ Docker Hoster watches for container lifecycle events and automatically:
 
 ### Prerequisites
 
-- Go 1.16 or higher
 - Docker running on the system
 - Root/sudo access (required to modify `/etc/hosts`)
 
-### Build from Source
+### Option 1: Download Pre-built Binary (Recommended)
+
+Pre-built binaries are available for Linux, macOS, and Windows on the [releases page](https://github.com/zignd/hoster/releases).
+
+**For Linux/macOS:**
+
+```bash
+# Download the appropriate binary for your platform
+# For Linux x86_64:
+wget https://github.com/zignd/hoster/releases/download/vX.Y.Z/hoster_linux_amd64.tar.gz
+tar -xzf hoster_linux_amd64.tar.gz
+
+# For Linux ARM64:
+wget https://github.com/zignd/hoster/releases/download/vX.Y.Z/hoster_linux_arm64.tar.gz
+tar -xzf hoster_linux_arm64.tar.gz
+
+# For macOS Intel (x86_64):
+wget https://github.com/zignd/hoster/releases/download/vX.Y.Z/hoster_darwin_amd64.tar.gz
+tar -xzf hoster_darwin_amd64.tar.gz
+
+# For macOS Apple Silicon (ARM64):
+wget https://github.com/zignd/hoster/releases/download/vX.Y.Z/hoster_darwin_arm64.tar.gz
+tar -xzf hoster_darwin_arm64.tar.gz
+
+# Make it executable
+chmod +x hoster
+
+# Optionally, move to a location in your PATH
+sudo mv hoster /usr/local/bin/
+```
+
+**For Windows:**
+
+Download the `.zip` file for your architecture from the [releases page](https://github.com/zignd/hoster/releases), extract it, and place the executable in your preferred location or add it to your PATH.
+
+**Check the installed version:**
+
+```bash
+hoster --version
+```
+
+### Option 2: Build from Source
+
+Requires Go 1.16 or higher.
 
 ```bash
 git clone <repository-url>
@@ -42,27 +84,36 @@ go build -o hoster main.go
 Run with default settings (requires root):
 
 ```bash
-sudo ./hoster
+sudo hoster
 ```
+
+**Note:** If you haven't moved the binary to a directory in your PATH, use `./hoster` instead when running from the current directory.
 
 ### Command Line Options
 
 View all available options:
 
 ```bash
-./hoster --help
+hoster --help
+```
+
+Check the version:
+
+```bash
+hoster --version
 ```
 
 Available flags:
 
-- `--help` - Display help message and exit
+- `--help` - Show help message with usage examples and exit
+- `--version` - Display version information and exit
 - `--hosts <path>` - Path to the hosts file (default: `/etc/hosts`)
 - `--socket <path>` - Path to the Docker socket (default: `/var/run/docker.sock`)
 
 Example with custom paths:
 
 ```bash
-sudo ./hoster --hosts /custom/hosts --socket /var/run/docker.sock
+sudo hoster --hosts /custom/hosts --socket /var/run/docker.sock
 ```
 
 ### Running as a Service
@@ -226,14 +277,6 @@ docker run -d --name test nginx
 grep test /etc/hosts
 ```
 
-## License
-
-[Add your license here]
-
 ## Contributing
 
 Contributions are welcome! Please feel free to submit issues or pull requests.
-
-## Author
-
-[Add your name/contact here]

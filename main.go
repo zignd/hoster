@@ -16,6 +16,8 @@ import (
 	"github.com/docker/docker/client"
 )
 
+var Version = "dev" // Will be overridden at build time
+
 const (
 	enclosingPattern = "#-----------Docker-Hoster-Domains----------\n"
 	defaultHostsPath = "/etc/hosts"
@@ -240,8 +242,14 @@ func main() {
 	hostsPath := flag.String("hosts", defaultHostsPath, "Path to the hosts file")
 	dockerSocket := flag.String("socket", defaultSocket, "Path to the Docker socket")
 	showHelp := flag.Bool("help", false, "Show help message")
+	showVersion := flag.Bool("version", false, "Display version and exit")
 
 	flag.Parse()
+
+	if *showVersion {
+		fmt.Println("hoster version", Version)
+		os.Exit(0)
+	}
 
 	if *showHelp {
 		fmt.Println("Docker Hoster - Automatically manage /etc/hosts entries for Docker containers")
